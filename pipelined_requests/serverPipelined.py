@@ -2,6 +2,12 @@
 
 import http.server
 import socketserver
+import argparse
+
+parser = argparse.ArgumentParser(description = 'Set the address and port to serve to')
+parser.add_argument('-a', required = True,type = str, help = 'Specify the desired IP address')
+parser.add_argument('-p', type = int, required = True , help = 'Specify the desired port number')
+args = parser.parse_args()
 
 postCount=0
 headCount=0
@@ -61,10 +67,10 @@ class newHandler(http.server.SimpleHTTPRequestHandler):
     	return
 
 
-PORT = 55555
+PORT = args.p
 
 Handler = newHandler
 
-with socketserver.TCPServer(("", PORT), Handler) as httpd:
+with socketserver.TCPServer((args.a, PORT), Handler) as httpd:
     print("serving at port", PORT)
     httpd.serve_forever()
