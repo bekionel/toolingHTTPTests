@@ -2,9 +2,15 @@
 
 import xml.etree.ElementTree as ET
 import http.client
+import argparse
+
+parser = argparse.ArgumentParser(description = 'Set the address and port to connect to')
+parser.add_argument('-a', required = True,type = str, help = 'Specify the desired IP address')
+parser.add_argument('-p', type = int, required = True , help = 'Specify the desired port number')
+args = parser.parse_args()
 
 #Establish connection with the server
-conn = http.client.HTTPConnection('localhost:55555')
+conn = http.client.HTTPConnection(args.a, port=args.p)
 
 #Create a single parent element with a hundred children
 first = ET.Element('root')
